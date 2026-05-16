@@ -772,7 +772,7 @@ function App() {
           </div>
 
           <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-gray-400">
-            <p className="text-sm sm:text-base">&copy; 2025 <a href="https://procesflow.pl/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Procesflow</a></p>
+            <p className="text-sm sm:text-base">&copy; 2026 <a href="https://procesflow.pl/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Procesflow</a></p>
           </div>
         </div>
       </footer>
