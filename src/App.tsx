@@ -649,7 +649,7 @@ function App() {
               <div className="text-sm sm:text-base text-green-100">Udzielonych porad</div>
             </div>
             <div>
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">1500+</div>
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">1800+</div>
               <div className="text-sm sm:text-base text-green-100">Zadowolonych klientów</div>
             </div>
             <div>
