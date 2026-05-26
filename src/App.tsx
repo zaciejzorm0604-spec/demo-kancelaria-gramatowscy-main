@@ -746,7 +746,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
-                <img src="/logo.svg" alt="E-Kancelaria Gramatowscy" className="h-8" />
+                <img src="/logo_biale_eKancelaria.svg" alt="E-Kancelaria Gramatowscy" className="h-8" />
               </div>
               <p className="text-sm sm:text-base text-gray-400">
                 Profesjonalna pomoc prawna online dla osób fizycznych w całej Polsce.
