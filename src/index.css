@@ -1,0 +1,7 @@
+:root {
+  --ball-accent: #2E8540;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
