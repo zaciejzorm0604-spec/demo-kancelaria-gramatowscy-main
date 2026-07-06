@@ -77,6 +77,58 @@ const CARDS: CardData[] = [
 ];
 
 
+const MOBILE_CSS = `
+  .mob-card{
+    opacity:0;transform:translateY(16px);
+    transition:opacity .5s ease,transform .5s ease;
+  }
+  .mob-card.on{opacity:1;transform:translateY(0)}
+`;
+
+function MobileSpecializations() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [cardOn, setCardOn] = useState<boolean[]>(CARDS.map(() => false));
+
+  useEffect(() => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { setCardOn(CARDS.map(() => true)); return; }
+
+    const items = containerRef.current?.querySelectorAll('.mob-card');
+    if (!items) return;
+
+    const observers: IntersectionObserver[] = [];
+    items.forEach((el, i) => {
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) { setCardOn(prev => { const next = [...prev]; next[i] = true; return next; }); obs.disconnect(); } },
+        { threshold: 0.15 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  return (
+    <>
+      <style>{MOBILE_CSS}</style>
+      <div ref={containerRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-2">
+        {CARDS.map((card, i) => (
+          <div key={i} className={`mob-card flex items-start gap-4 bg-white/10 rounded-2xl p-4${cardOn[i] ? ' on' : ''}`}>
+            <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br from-[#f0f9f0] to-[#d8f0d8] flex items-center justify-center text-[#236b29] shadow-md">
+              <card.Icon size={20} strokeWidth={1.7} />
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-base leading-tight mb-1">{card.title}</h3>
+              <div className="w-7 h-0.5 bg-white/35 rounded mb-2" />
+              <p className="text-white/70 text-sm leading-snug">{card.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function SpecializationsSnake() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const sizerRef    = useRef<HTMLDivElement>(null);
@@ -364,7 +416,7 @@ function App() {
             </div>
             <div className="relative h-80 sm:h-96 lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="/wejście2.jpg"
+                src="/wejście2.avif"
                 alt="Kancelaria Gramatowscy – wejście"
                 className="w-full h-full object-cover object-center"
               />
@@ -400,7 +452,7 @@ function App() {
             </div>
             <div className="relative h-72 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="/laptop_zamkniety.jpg"
+                src="/laptop_zamkniety.avif"
                 alt="Konsultacja prawna online"
                 className="w-full h-full object-cover object-center"
               />
@@ -420,7 +472,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="relative h-72 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-xl order-last lg:order-first">
               <img
-                src="/laptop.jpg"
+                src="/laptop.avif"
                 alt="Konsultacja prawna przez internet"
                 className="w-full h-full object-cover object-center"
               />
@@ -715,7 +767,7 @@ function App() {
             </div>
             <div className="relative h-56 sm:h-72 lg:h-64 rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="/temida.jpg"
+                src="/temida.avif"
                 alt="Temida – symbol sprawiedliwości"
                 className="w-full h-full object-cover object-center"
               />
@@ -726,7 +778,14 @@ function App() {
 
         {/* Zielony panel – pełna szerokość sekcji */}
         <div className="bg-gradient-to-br from-[#2E8540] to-[#1a5c2a] py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
-          <SpecializationsSnake />
+          {/* Mobile: responsywny grid kart */}
+          <div className="md:hidden">
+            <MobileSpecializations />
+          </div>
+          {/* Desktop: animacja węża */}
+          <div className="hidden md:block">
+            <SpecializationsSnake />
+          </div>
         </div>
       </section>
 
@@ -736,7 +795,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="relative h-80 sm:h-96 lg:h-[480px] rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="/wejście1.jpg"
+                src="/wejście1.avif"
                 alt="Kancelaria Gramatowscy"
                 className="w-full h-full object-cover object-center"
               />
