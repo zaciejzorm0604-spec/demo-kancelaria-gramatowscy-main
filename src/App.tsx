@@ -19,8 +19,8 @@ const SNAKE_PATH =
   'H 1120';
 
 const SNAKE_CSS = `
-  .snake-scroller{overflow-x:auto;overflow-y:hidden}
-  .snake-sizer{position:relative;margin:0 auto}
+  .snake-scroller{overflow:hidden;width:100%;display:flex;justify-content:center;}
+  .snake-sizer{position:relative;}
   .snake-board{position:absolute;top:0;left:0;width:${BOARD_W}px;height:${BOARD_H}px;transform-origin:0 0}
   .snake-board svg{position:absolute;inset:0;width:100%;height:100%;display:block}
   .snake-card{
@@ -40,11 +40,11 @@ const SNAKE_CSS = `
     letter-spacing:.01em;line-height:1.2;
   }
   .snake-card p{
-    margin:0;font-size:13px;line-height:1.55;
-    color:rgba(255,255,255,0.72);max-width:440px;
+    margin:0;font-size:18px;line-height:1.45;
+    color:rgba(255,255,255,0.9);max-width:480px;
   }
   .snake-divider{
-    width:32px;height:2px;background:rgba(255,255,255,0.35);
+    width:32px;height:2px;background:#86efac;
     border-radius:2px;margin:6px 0 8px;
   }
   .snake-badge{
@@ -118,9 +118,9 @@ function MobileSpecializations() {
               <card.Icon size={20} strokeWidth={1.7} />
             </div>
             <div>
-              <h3 className="text-white font-bold text-base leading-tight mb-1">{card.title}</h3>
-              <div className="w-7 h-0.5 bg-white/35 rounded mb-2" />
-              <p className="text-white/70 text-sm leading-snug">{card.description}</p>
+              <h3 className="text-white font-bold text-lg leading-tight mb-1">{card.title}</h3>
+              <div className="w-7 h-0.5 bg-[#86efac] rounded mb-2" />
+              <p className="text-white/90 text-lg leading-snug">{card.description}</p>
             </div>
           </div>
         ))}
@@ -195,7 +195,7 @@ function SpecializationsSnake() {
   useEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
-    const fit = () => setScale(Math.max(0.55, Math.min(1, scroller.clientWidth / BOARD_W)));
+    const fit = () => setScale(Math.min(1, scroller.clientWidth / BOARD_W));
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
@@ -231,6 +231,206 @@ function SpecializationsSnake() {
                 <div className="snake-badge"><card.Icon size={22} strokeWidth={1.7} /></div>
                 <h3>{card.title}</h3>
                 <div className="snake-divider" />
+                <p>{card.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+const HW_BOARD_W = 1160;
+const HW_BOARD_H = 480;
+const HW_SNAKE_PATH =
+  'M 40 10 H 1120 Q 1140 10 1140 30 V 120 Q 1140 140 1120 140 ' +
+  'H 60 Q 40 140 40 160 V 280 Q 40 300 60 300 ' +
+  'H 1120 Q 1140 300 1140 320 V 440 Q 1140 460 1120 460 H -20';
+
+const HW_CARDS = [
+  { x: 560, y: 30, w: 560, h: 90, number: '1', title: 'Zamów konsultację', description: 'Poprzez formularz albo czat zamów i opłać konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.' },
+  { x: 60, y: 160, w: 460, h: 120, number: '2', title: 'Wybierz termin konsultacji', description: 'Nasz asystent w ciągu 24 h (lub najbliższy dzień roboczy) skontaktuje się z Tobą i umówi konkretny termin rozmowy z prawnikiem.' },
+  { x: 560, y: 320, w: 560, h: 120, number: '3', title: 'Otrzymaj odpowiedź', description: 'Podczas konsultacji nasz prawnik przeanalizuje Twoją sprawę i przedstawi możliwe rozwiązania.' },
+];
+
+const HW_SNAKE_CSS = `
+  .hw-scroller{overflow:hidden;width:100%;display:flex;justify-content:center;}
+  .hw-sizer{position:relative;}
+  .hw-board{position:absolute;top:0;left:0;width:${HW_BOARD_W}px;height:${HW_BOARD_H}px;transform-origin:0 0}
+  .hw-board svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hw-card{
+    position:absolute;display:flex;flex-direction:column;justify-content:center;
+    padding:16px 32px 16px 62px;border-radius:20px;
+    opacity:0;transform:translateY(14px);
+    transition:opacity .5s ease,transform .5s ease;
+  }
+  .hw-card.on{opacity:1;transform:translateY(0)}
+  .hw-card h3{
+    margin:0 0 6px;font-size:19px;font-weight:700;color:#111827;
+    letter-spacing:.01em;line-height:1.2;
+  }
+  .hw-card p{
+    margin:0;font-size:18px;line-height:1.45;
+    color:#4B5563;max-width:480px;
+  }
+  .hw-divider{
+    width:32px;height:3px;background:#2E8540;
+    border-radius:2px;margin:6px 0 8px;
+  }
+  .hw-badge{
+    position:absolute;top:50%;left:0;transform:translate(-50%,-50%);
+    width:50px;height:50px;border-radius:50%;
+    background:#2E8540;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    font-size:20px;font-weight:bold;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1),0 1px 3px rgba(0,0,0,0.05);
+  }
+`;
+
+function MobileHowItWorks() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [cardOn, setCardOn] = useState<boolean[]>(HW_CARDS.map(() => false));
+
+  useEffect(() => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { setCardOn(HW_CARDS.map(() => true)); return; }
+
+    const items = containerRef.current?.querySelectorAll('.mob-card');
+    if (!items) return;
+
+    const observers: IntersectionObserver[] = [];
+    items.forEach((el, i) => {
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) { setCardOn(prev => { const next = [...prev]; next[i] = true; return next; }); obs.disconnect(); } },
+        { threshold: 0.15 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  return (
+    <>
+      <style>{MOBILE_CSS}</style>
+      <div ref={containerRef} className="flex flex-col gap-6 px-2 max-w-lg mx-auto">
+        {HW_CARDS.map((card, i) => (
+          <div key={i} className={`mob-card flex items-start gap-4 bg-white rounded-2xl p-6 shadow-sm border border-gray-100${cardOn[i] ? ' on' : ''}`}>
+            <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[#2E8540] flex items-center justify-center text-white font-bold text-lg shadow-md">
+              {card.number}
+            </div>
+            <div>
+              <h3 className="text-gray-900 font-bold text-lg leading-tight mb-1">{card.title}</h3>
+              <div className="w-8 h-[3px] bg-[#2E8540] rounded mb-2" />
+              <p className="text-gray-600 text-base leading-snug">{card.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function HowItWorksSnake() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const sizerRef    = useRef<HTMLDivElement>(null);
+  const snakeRef    = useRef<SVGPathElement>(null);
+  const lenRef      = useRef(0);
+  const cardAtRef   = useRef<number[]>(HW_CARDS.map(() => Infinity));
+
+  const [scale,     setScale]     = useState(1);
+  const [snakeLen,  setSnakeLen]  = useState<number | null>(null);
+  const [dashOffset,setDashOffset]= useState(0);
+  const [cardOn,    setCardOn]    = useState<boolean[]>(HW_CARDS.map(() => false));
+
+  useEffect(() => {
+    const snake = snakeRef.current;
+    const sizer = sizerRef.current;
+    if (!snake || !sizer) return;
+
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const len = snake.getTotalLength();
+    lenRef.current = len;
+    setSnakeLen(len);
+
+    if (reduced) {
+      setDashOffset(0);
+      setCardOn(HW_CARDS.map(() => true));
+      return;
+    }
+
+    setDashOffset(len);
+
+    const ats: number[] = HW_CARDS.map(() => Infinity);
+    for (let d = 0; d <= len; d += 8) {
+      const pt = snake.getPointAtLength(d);
+      ats.forEach((at, i) => {
+        if (at === Infinity && Math.hypot(pt.x - HW_CARDS[i].x, pt.y - HW_CARDS[i].y) < 26)
+          ats[i] = d;
+      });
+    }
+    cardAtRef.current = ats;
+
+    const update = () => {
+      const r = sizer.getBoundingClientRect();
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const minTop = r.top + window.scrollY - maxScroll;
+      const denom   = Math.max(1, Math.min(r.height, window.innerHeight * 0.9 - minTop));
+      const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.9 - r.top) / denom));
+      const drawn = len * progress;
+      setDashOffset(len - drawn);
+      setCardOn(cardAtRef.current.map(at => drawn >= at));
+    };
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const fit = () => setScale(Math.min(1, scroller.clientWidth / HW_BOARD_W));
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, []);
+
+  return (
+    <>
+      <style>{HW_SNAKE_CSS}</style>
+      <div ref={scrollerRef} className="hw-scroller">
+        <div ref={sizerRef} className="hw-sizer"
+          style={{ width: HW_BOARD_W * scale, height: HW_BOARD_H * scale }}>
+          <div className="hw-board" style={{ transform: `scale(${scale})` }}>
+            <svg viewBox={`0 0 ${HW_BOARD_W} ${HW_BOARD_H}`} aria-hidden="true">
+              <path
+                ref={snakeRef}
+                d={HW_SNAKE_PATH}
+                fill="none"
+                stroke="rgba(46,133,64,0.45)"
+                strokeWidth={3}
+                strokeLinecap="round"
+                style={snakeLen !== null ? {
+                  strokeDasharray: `${snakeLen} ${snakeLen}`,
+                  strokeDashoffset: dashOffset,
+                } : { opacity: 0 }}
+              />
+            </svg>
+            {HW_CARDS.map((card, i) => (
+              <div
+                key={i}
+                className={`hw-card${cardOn[i] ? ' on' : ''}`}
+                style={{ left: card.x, top: card.y, width: card.w, height: card.h }}
+              >
+                <div className="hw-badge">{card.number}</div>
+                <h3>{card.title}</h3>
+                <div className="hw-divider" />
                 <p>{card.description}</p>
               </div>
             ))}
@@ -387,36 +587,32 @@ function App() {
       </nav>
 
       {/* STRONA 1 – Intro Hero */}
-      <section className="pt-24 pb-16 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="pt-24 pb-16 bg-[#F3F9F4] min-h-[100vh] flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
-                Profesjonalne wsparcie prawne zaczyna się od&nbsp;zrozumienia
+                <span className="text-[#2E8540]">Profesjonalne wsparcie prawne</span> zaczyna się od&nbsp;zrozumienia
               </h1>
-              <p className="text-lg sm:text-xl text-[#2E8540] font-medium mb-4 sm:mb-6">
+              <p className="text-lg sm:text-xl text-[#2E8540] font-medium mb-10 sm:mb-12">
                 — widzimy przede wszystkim człowieka i&nbsp;jego historię…
               </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
-                Rozumiemy, że za&nbsp;każdą sprawą stoją emocje i&nbsp;ważne życiowe decyzje, dlatego stawiamy na&nbsp;indywidualne podejście oraz realne wsparcie na&nbsp;każdym etapie współpracy. Nasi adwokaci i&nbsp;radcy prawni angażują się i&nbsp;szukają najlepszych rozwiązań z&nbsp;pełnym zrozumieniem Twoich potrzeb.
+              <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 leading-relaxed max-w-lg">
+                Rozumiemy, że za&nbsp;każdą sprawą stoją emocje i&nbsp;ważne życiowe decyzje, dlatego stawiamy na&nbsp;<strong>indywidualne podejście</strong> oraz realne wsparcie na&nbsp;każdym etapie współpracy. Nasi adwokaci i&nbsp;radcy prawni angażują się i&nbsp;szukają najlepszych rozwiązań z&nbsp;pełnym zrozumieniem <strong>Twoich potrzeb</strong>.
               </p>
-              <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 border-l-4 border-[#2E8540]">
-                <p className="font-bold text-gray-900 mb-1">Sprawne działanie</p>
-                <p className="text-gray-600 text-sm sm:text-base">Szybki kontakt. Analiza problemu i&nbsp;warianty możliwych rozwiązań.</p>
-              </div>
-              <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
-                Poznaj sposób działania naszej kancelarii, zakres specjalizacji oraz korzyści płynące ze&nbsp;współpracy z&nbsp;doświadczonym zespołem prawników.
+              <p className="text-sm sm:text-base text-gray-600 mb-8 leading-relaxed max-w-lg">
+                Poznaj sposób działania naszej kancelarii, zakres specjalizacji oraz <strong>korzyści</strong> płynące ze&nbsp;współpracy z&nbsp;<strong>doświadczonym zespołem</strong> prawników.
               </p>
               <a
-                href="#kontakt"
+                href="#kontakt-formularz"
                 className="inline-block bg-[#2E8540] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#247032] transition text-base sm:text-lg"
               >
                 Przedstaw swoją sprawę
               </a>
             </div>
-            <div className="relative h-80 sm:h-96 lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-80 sm:h-96 lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
               <img
-                src="/wejście2.avif"
+                src="/zdjecie rozjasione.avif"
                 alt="Kancelaria Gramatowscy – wejście"
                 className="w-full h-full object-cover object-center"
               />
@@ -429,18 +625,25 @@ function App() {
       {/* STRONA 2 – Szybka konsultacja z prawnikiem */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+            <div className="relative h-72 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-xl order-last lg:order-first">
+              <img
+                src="/laptop_zamkniety.avif"
+                alt="Konsultacja prawna online"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+            <div className="order-first lg:order-last">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                 Szybka konsultacja z&nbsp;prawnikiem
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 mb-4 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed max-w-lg">
                 Nie każda sprawa wymaga natychmiastowej wizyty w&nbsp;kancelarii. Czasem wystarczy szybka konsultacja, aby odzyskać spokój, poznać możliwości i&nbsp;podjąć właściwe decyzje.
               </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-4 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed max-w-lg">
                 Stworzyliśmy nowoczesny sposób kontaktu z&nbsp;prawnikiem&nbsp;– prosty, wygodny i&nbsp;dostępny <strong>ONLINE</strong>. Bez zbędnych formalności, bez ukrytych kosztów i&nbsp;bez wychodzenia z&nbsp;domu.
               </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 mb-8 leading-relaxed max-w-lg">
                 Niezależnie od&nbsp;tego, czy potrzebujesz pomocy w&nbsp;sprawie rodzinnej, majątkowej, spadkowej czy związanej z&nbsp;nieruchomościami&nbsp;– możesz liczyć na&nbsp;jasne wyjaśnienie sytuacji oraz konkretne rozwiązania dopasowane do&nbsp;Twoich potrzeb.
               </p>
               <a
@@ -450,66 +653,25 @@ function App() {
                 Sprawdź, jak działamy
               </a>
             </div>
-            <div className="relative h-72 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-xl">
-              <img
-                src="/laptop_zamkniety.avif"
-                alt="Konsultacja prawna online"
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
           </div>
         </div>
       </section>
 
       {/* STRONA 3 – How It Works */}
-      <section id="jak-dziala" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+      <section id="jak-dziala" className="py-12 sm:py-16 lg:py-20 bg-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Jak działa nasza pomoc prawna?</h2>
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              Jak działa nasza <span className="text-[#2E8540]">pomoc prawna</span>?
+            </h2>
             <p className="text-base sm:text-lg lg:text-xl text-gray-600">Trzy proste kroki do&nbsp;rozwiązania Twojego problemu</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="relative h-72 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-xl order-last lg:order-first">
-              <img
-                src="/laptop.avif"
-                alt="Konsultacja prawna przez internet"
-                className="w-full h-full object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-            </div>
-
-            <div className="space-y-8">
-              <div className="flex items-start gap-5">
-                <div className="bg-[#2E8540] text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">1</div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Zamów konsultację</h3>
-                  <p className="text-sm sm:text-base text-gray-600">
-                    Poprzez formularz albo czat zamów i&nbsp;opłać konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-5">
-                <div className="bg-[#2E8540] text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">2</div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Wybierz termin konsultacji</h3>
-                  <p className="text-sm sm:text-base text-gray-600">
-                    Nasz asystent w&nbsp;ciągu 24&nbsp;h (lub najbliższy dzień roboczy) skontaktuje się z&nbsp;Tobą i&nbsp;umówi konkretny termin rozmowy z&nbsp;prawnikiem.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-5">
-                <div className="bg-[#2E8540] text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">3</div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Otrzymaj odpowiedź</h3>
-                  <p className="text-sm sm:text-base text-gray-600">
-                    Podczas konsultacji nasz prawnik przeanalizuje Twoją sprawę i&nbsp;przedstawi możliwe rozwiązania.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="lg:hidden">
+            <MobileHowItWorks />
+          </div>
+          <div className="hidden lg:block">
+            <HowItWorksSnake />
           </div>
         </div>
       </section>
@@ -519,8 +681,11 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
-                Profesjonalna pomoc prawna <span className="text-[#2E8540]">online</span> dla&nbsp;osób fizycznych
+              <h2 className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
+                Profesjonalna <br className="hidden lg:block"/>
+                pomoc prawna <br className="hidden lg:block"/>
+                <span className="text-[#2E8540]">online</span> <br className="hidden lg:block"/>
+                dla&nbsp;osób fizycznych
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8">
                 Rozwody, spadki, podział majątku, odszkodowania, nieruchomości i&nbsp;więcej
@@ -551,14 +716,14 @@ function App() {
                 </button>
                 <button
                   onClick={() => setContactMethod('chat')}
-                  className={`px-4 sm:px-6 py-3 rounded-lg transition flex items-center justify-center space-x-2 ${contactMethod === 'chat' ? 'bg-[#2E8540] text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`border-2 border-[#2E8540] px-4 sm:px-6 py-3 rounded-lg transition flex items-center justify-center space-x-2 ${contactMethod === 'chat' ? 'bg-[#2E8540] text-white' : 'text-[#2E8540] bg-white hover:bg-[#F3F9F4]'}`}
                 >
                   <MessageSquare className="h-4 w-4" />
                   <span>Chat</span>
                 </button>
                 <button
                   onClick={() => setContactMethod('voice')}
-                  className={`px-4 sm:px-6 py-3 rounded-lg transition flex items-center justify-center space-x-2 ${contactMethod === 'voice' ? 'bg-[#2E8540] text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`border-2 border-[#2E8540] px-4 sm:px-6 py-3 rounded-lg transition flex items-center justify-center space-x-2 ${contactMethod === 'voice' ? 'bg-[#2E8540] text-white' : 'text-[#2E8540] bg-white hover:bg-[#F3F9F4]'}`}
                 >
                   <Phone className="h-4 w-4" />
                   <span>Telefon</span>
@@ -672,7 +837,7 @@ function App() {
                           required
                         />
                         <label htmlFor="consent" className="text-sm text-gray-600">
-                          Wyrażam zgodę na&nbsp;przetwarzanie przez Kancelarię Prawną Gramatowscy moich danych osobowych, podanych w&nbsp;powyższym formularzu, w&nbsp;celach związanych z&nbsp;udzieleniem odpowiedzi na&nbsp;zadane pytanie i&nbsp;świadczenia pomocy prawnej. Przyjmuję do&nbsp;wiadomości, że zgoda może być cofnięta w&nbsp;każdym czasie. Szczegółowe zasady przetwarzania danych osobowych przez Kancelarię Prawną Gramatowscy zawarte są w{' '}
+                          Wyrażam zgodę na&nbsp;przetwarzanie przez Kancelarię Prawną Gramatowscy moich danych osobowych w&nbsp;celach związanych ze&nbsp;świadczeniem pomocy prawnej. Przyjmuję do&nbsp;wiadomości, że zgoda może być cofnięta w&nbsp;każdym czasie. Szczegółowe zasady przetwarzania danych osobowych przez Kancelarię Prawną Gramatowscy zawarte są w{' '}
                           <a
                             href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii"
                             target="_blank"
@@ -689,11 +854,8 @@ function App() {
                         disabled={!consent || isSubmitting}
                         className="w-full bg-[#2E8540] text-white py-4 rounded-lg font-semibold hover:bg-[#247032] transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                       >
-                        {isSubmitting ? 'Wysyłanie…' : 'Wyślij zapytanie'}
+                        {isSubmitting ? 'Wysyłanie…' : 'Wyślij'}
                       </button>
-                      <p className="text-xs text-gray-500 text-center">
-                        Odpowiedź w&nbsp;ciągu 24&nbsp;godzin. Gwarantujemy poufność.
-                      </p>
                     </form>
                   ) : (
                     <div className="text-center py-8">
@@ -762,7 +924,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Nasze specjalizacje</h2>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Nasze <span className="text-[#2E8540]">specjalizacje</span></h2>
               <p className="text-base sm:text-lg lg:text-xl text-gray-600">Kompleksowa obsługa prawna dla&nbsp;osób fizycznych</p>
             </div>
             <div className="relative h-56 sm:h-72 lg:h-64 rounded-2xl overflow-hidden shadow-xl">
@@ -779,11 +941,11 @@ function App() {
         {/* Zielony panel – pełna szerokość sekcji */}
         <div className="bg-gradient-to-br from-[#2E8540] to-[#1a5c2a] py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
           {/* Mobile: responsywny grid kart */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <MobileSpecializations />
           </div>
           {/* Desktop: animacja węża */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <SpecializationsSnake />
           </div>
         </div>
@@ -803,7 +965,7 @@ function App() {
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 sm:mb-10">Dlaczego warto nam zaufać?</h2>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 sm:mb-10">Dlaczego warto <span className="text-[#2E8540]">nam zaufać</span>?</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <div className="bg-green-50 w-14 h-14 rounded-full flex items-center justify-center mb-3">
@@ -951,17 +1113,17 @@ function App() {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+            <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                 <img src="/logo_biale_eKancelaria.svg" alt="E-Kancelaria Gramatowscy" className="h-8" />
               </div>
               <p className="text-sm sm:text-base text-gray-400">
-                Profesjonalna pomoc prawna online dla&nbsp;osób fizycznych w&nbsp;całej Polsce. Adwokaci i&nbsp;radcy prawni. 20 lat doświadczenia.
+                Profesjonalna pomoc prawna online dla&nbsp;osób fizycznych w&nbsp;całej Polsce. Adwokaci i&nbsp;radcy prawni. 20&nbsp;lat doświadczenia.
               </p>
             </div>
 
-            <div>
+            <div className="md:pl-8 lg:pl-12">
               <h3 className="text-white font-bold mb-3 sm:mb-4 text-base sm:text-lg">Usługi</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
                 <li><a href="#uslugi" className="hover:text-white transition">Rozwody i&nbsp;separacje</a></li>
@@ -1026,8 +1188,9 @@ function App() {
             </div>
           </div>
 
-          <div className="border-t border-gray-800 pt-6 sm:pt-8 text-center text-gray-400">
+          <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-gray-400 gap-4">
             <p className="text-sm sm:text-base">&copy; 2026 <a href="https://procesflow.pl/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Procesflow</a></p>
+            <a href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii" target="_blank" rel="noopener noreferrer" className="text-sm sm:text-base hover:text-white transition">Polityka prywatności</a>
           </div>
         </div>
       </footer>

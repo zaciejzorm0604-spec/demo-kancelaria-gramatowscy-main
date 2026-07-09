@@ -216,12 +216,21 @@ export default function PlayfulBall() {
           boxShadow: '0 8px 32px rgba(28,82,40,0.55), 0 2px 8px rgba(0,0,0,0.35)',
           pointerEvents: 'none',
           willChange: 'transform',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           // Start hidden until useEffect sets position
           transform: 'translate3d(-200px, -200px, 0)',
           // If reduced motion, position statically (useEffect won't start loop)
           ...(reduced ? { transition: 'none' } : {}),
         }}
-      />
+      >
+        <img 
+          src="/paragraf - bialy na kulke.svg" 
+          alt="Paragraf" 
+          style={{ width: '45%', height: '45%', opacity: 0.9 }} 
+        />
+      </div>
     </div>
   );
 }
