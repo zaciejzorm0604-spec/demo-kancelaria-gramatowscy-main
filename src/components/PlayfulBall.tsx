@@ -229,6 +229,7 @@ export default function PlayfulBall() {
           src="/paragraf - bialy na kulke.svg" 
           alt="Paragraf" 
           style={{ width: '45%', height: '45%', opacity: 0.9 }} 
+          loading="lazy"
         />
       </div>
     </div>
