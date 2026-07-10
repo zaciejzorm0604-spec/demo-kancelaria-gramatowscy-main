@@ -5,3 +5,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (max-width: 768px) {
+  #voiceflow-chat {
+    bottom: 16px !important;
+    right: 16px !important;
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+  }
+}
