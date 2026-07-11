@@ -572,7 +572,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <img src="/logo.svg" alt="E-Kancelaria Gramatowscy" className="h-8" fetchPriority="high" />
+              <img src={import.meta.env.BASE_URL + 'logo.svg'} alt="E-Kancelaria Gramatowscy" className="h-8" fetchPriority="high" />
             </div>
             <div className="hidden md:flex items-center gap-2">
               <a href="#uslugi" className="text-gray-700 hover:text-[#2E8540] transition px-3 py-2">Usługi</a>
@@ -627,7 +627,7 @@ function App() {
             </div>
             <div className="relative h-80 sm:h-96 lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
               <img
-                src="/zdjecie rozjasione.avif"
+                src={import.meta.env.BASE_URL + 'zdjecie rozjasione.avif'}
                 alt="Kancelaria Gramatowscy – wejście"
                 className="w-full h-full object-cover object-center"
                 fetchPriority="high"
@@ -644,7 +644,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div className="relative h-72 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-xl order-last lg:order-first">
               <img
-                src="/laptop_zamkniety.avif"
+                src={import.meta.env.BASE_URL + 'laptop_zamkniety.avif'}
                 alt="Konsultacja prawna online"
                 className="w-full h-full object-cover object-center"
                 loading="lazy"
@@ -946,7 +946,7 @@ function App() {
             </div>
             <div className="relative h-56 sm:h-72 lg:h-64 rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="/temida.avif"
+                src={import.meta.env.BASE_URL + 'temida.avif'}
                 alt="Temida – symbol sprawiedliwości"
                 className="w-full h-full object-cover object-center"
                 loading="lazy"
@@ -975,7 +975,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="relative h-80 sm:h-96 lg:h-[480px] rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="/wejście1.avif"
+                src={import.meta.env.BASE_URL + 'wejście1.avif'}
                 alt="Kancelaria Gramatowscy"
                 className="w-full h-full object-cover object-center"
                 loading="lazy"
@@ -1135,7 +1135,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
-                <img src="/logo_biale_eKancelaria.svg" alt="E-Kancelaria Gramatowscy" className="h-8" loading="lazy" />
+                <img src={import.meta.env.BASE_URL + 'logo_biale_eKancelaria.svg'} alt="E-Kancelaria Gramatowscy" className="h-8" loading="lazy" />
               </div>
               <p className="text-sm sm:text-base text-gray-400">
                 Profesjonalna pomoc prawna online dla&nbsp;osób fizycznych w&nbsp;całej Polsce.<br className="hidden sm:block" /> Adwokaci i&nbsp;radcy prawni. 20&nbsp;lat doświadczenia.
