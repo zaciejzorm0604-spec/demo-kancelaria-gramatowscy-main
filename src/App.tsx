@@ -249,7 +249,7 @@ const HW_SNAKE_PATH =
   'H 1120 Q 1140 300 1140 320 V 440 Q 1140 460 1120 460 H -20';
 
 const HW_CARDS = [
-  { x: 560, y: 30, w: 560, h: 90, number: '1', title: 'Zamów konsultację', description: 'Poprzez formularz albo czat zamów i opłać konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.' },
+  { x: 560, y: 30, w: 560, h: 90, number: '1', title: 'Zamów konsultację', description: 'Poprzez formularz albo czat zamów i opłać telefoniczną konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.' },
   { x: 60, y: 160, w: 460, h: 120, number: '2', title: 'Wybierz termin konsultacji', description: 'Nasz asystent w ciągu 24 h (lub najbliższy dzień roboczy) skontaktuje się z Tobą i umówi konkretny termin rozmowy z prawnikiem.' },
   { x: 560, y: 320, w: 560, h: 120, number: '3', title: 'Otrzymaj odpowiedź', description: 'Podczas konsultacji nasz prawnik przeanalizuje Twoją sprawę i przedstawi możliwe rozwiązania.' },
 ];
@@ -275,15 +275,15 @@ const HW_SNAKE_CSS = `
     color:#4B5563;max-width:480px;
   }
   .hw-divider{
-    width:32px;height:3px;background:#1a5c2a;
+    width:32px;height:3px;background:#236b29;
     border-radius:2px;margin:6px 0 8px;
   }
   .hw-badge{
     position:absolute;top:50%;left:0;transform:translate(-50%,-50%);
-    width:50px;height:50px;border-radius:12px;
-    background:#1a5c2a;
-    display:flex;align-items:center;justify-content:center;color:#86efac;
-    font-size:20px;font-weight:bold;
+    width:55px;height:55px;border-radius:12px;
+    background:#236b29;
+    display:flex;align-items:center;justify-content:center;color:#d8f0d8;
+    font-size:26px;font-weight:bold;
     box-shadow:0 4px 12px rgba(0,0,0,0.1),0 1px 3px rgba(0,0,0,0.05);
   }
 `;
@@ -318,12 +318,12 @@ function MobileHowItWorks() {
         <div className="absolute left-[30px] top-[40px] bottom-[40px] w-0.5 bg-gray-200" />
         {HW_CARDS.map((card, i) => (
           <div key={i} className={`relative mob-card flex items-start gap-4 bg-white rounded-2xl p-6 shadow-sm border border-gray-100${cardOn[i] ? ' on' : ''}`}>
-            <div className="flex-shrink-0 w-11 h-11 rounded-xl z-10 bg-[#1a5c2a] flex items-center justify-center text-[#86efac] font-bold text-lg shadow-md">
+            <div className="flex-shrink-0 w-12 h-12 rounded-xl z-10 bg-[#236b29] flex items-center justify-center text-[#d8f0d8] font-bold text-2xl shadow-md">
               {card.number}
             </div>
             <div>
               <h3 className="text-gray-900 font-bold text-lg leading-tight mb-1">{card.title}</h3>
-              <div className="w-8 h-[3px] bg-[#1a5c2a] rounded mb-2" />
+              <div className="w-8 h-[3px] bg-[#236b29] rounded mb-2" />
               <p className="text-gray-600 text-sm sm:text-base leading-snug">{card.description}</p>
             </div>
           </div>
@@ -466,6 +466,7 @@ function App() {
     address: ''
   });
   const [consent, setConsent] = useState(false);
+  const [showFullConsent, setShowFullConsent] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [webhookResponse, setWebhookResponse] = useState<{ message: string; checkout_url?: string } | null>(null);
@@ -564,7 +565,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white relative">
       <PlayfulBall />
-      <a href="#kontakt-formularz" className="md:hidden fixed right-0 top-1/2 -translate-y-1/2 bg-[#2E8540] text-white py-4 px-2 rounded-l-lg shadow-xl z-40 text-sm font-semibold tracking-wider flex items-center justify-center" style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)' }}>
+      <a href="#kontakt-formularz" className={`md:hidden fixed right-0 top-1/2 -translate-y-1/2 bg-[#2E8540] text-white py-4 px-2 rounded-r-lg shadow-xl z-40 text-sm font-semibold tracking-wider flex items-center justify-center transition-opacity duration-300 ${showScrollTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)' }}>
         Przedstaw sprawę
       </a>
       {/* Navigation */}
@@ -629,7 +630,7 @@ function App() {
               <img
                 src="/zdjecie rozjasione.avif"
                 alt="Kancelaria Gramatowscy – wejście"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-right"
                 fetchPriority="high"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -654,13 +655,13 @@ function App() {
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6 lg:mb-8">
                 <span className="text-[#2E8540]">Szybka konsultacja</span> z&nbsp;prawnikiem
               </h2>
-              <p className="text-sm text-gray-600 mb-4 leading-relaxed max-w-md">
-                Nie każda sprawa wymaga natychmiastowej wizyty w&nbsp;kancelarii. Czasem wystarczy <strong>szybka konsultacja</strong>, aby odzyskać spokój, poznać możliwości i&nbsp;podjąć właściwe decyzje.
+              <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed max-w-lg">
+                Nie każda sprawa wymaga natychmiastowej wizyty w&nbsp;kancelarii. Czasem wystarczy <strong>szybka konsultacja telefoniczna</strong>, aby odzyskać spokój, poznać możliwości i&nbsp;podjąć właściwe decyzje.
               </p>
-              <p className="text-sm text-gray-600 mb-8 leading-relaxed max-w-md">
-                Stworzyliśmy <strong>nowoczesny sposób kontaktu</strong> z&nbsp;prawnikiem&nbsp;– prosty, wygodny i&nbsp;dostępny <strong className="text-[#2E8540]">ONLINE</strong>. Bez zbędnych formalności, bez ukrytych kosztów i&nbsp;<strong>bez wychodzenia z&nbsp;domu.</strong>
+              <p className="text-sm sm:text-base text-gray-600 mb-8 leading-relaxed max-w-lg">
+                Stworzyliśmy <strong>nowoczesny sposób kontaktu</strong> z&nbsp;prawnikiem&nbsp;– prosty, wygodny i&nbsp;dostępny <strong className="text-[#2E8540]">ONLINE</strong>. Bez zbędnych formalności i&nbsp;<strong>bez wychodzenia z&nbsp;domu.</strong>
               </p>
-              <p className="text-sm text-gray-600 mb-8 leading-relaxed max-w-md">
+              <p className="text-sm sm:text-base text-gray-600 mb-8 leading-relaxed max-w-lg">
                 Niezależnie od&nbsp;tego, czy potrzebujesz pomocy w&nbsp;sprawie rodzinnej, majątkowej, spadkowej czy związanej z&nbsp;nieruchomościami&nbsp;– możesz liczyć na&nbsp;jasne wyjaśnienie sytuacji oraz <strong>konkretne rozwiązania</strong> dopasowane do&nbsp;Twoich potrzeb.
               </p>
               <a
@@ -854,16 +855,32 @@ function App() {
                           required
                         />
                         <label htmlFor="consent" className="text-sm text-gray-600">
-                          Wyrażam zgodę na&nbsp;przetwarzanie przez Kancelarię Prawną Gramatowscy moich danych osobowych w&nbsp;celach związanych ze&nbsp;świadczeniem pomocy prawnej. Przyjmuję do&nbsp;wiadomości, że zgoda może być cofnięta w&nbsp;każdym czasie. Szczegółowe zasady przetwarzania danych osobowych przez Kancelarię Prawną Gramatowscy zawarte są w{' '}
-                          <a
-                            href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#2E8540] hover:underline"
-                          >
-                            Polityce prywatności
-                          </a>
-                          .
+                          Wyrażam zgodę na&nbsp;przetwarzanie przez Kancelarię Prawną Gramatowscy moich danych osobowych w&nbsp;celach związanych ze&nbsp;świadczeniem pomocy prawnej. Przyjmuję do&nbsp;wiadomości, że zgoda może być cofnięta w&nbsp;każdym czasie.
+                          {showFullConsent ? (
+                            <>
+                              {' '}Szczegółowe zasady przetwarzania danych osobowych przez Kancelarię Prawną Gramatowscy zawarte są w{' '}
+                              <a
+                                href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#2E8540] hover:underline"
+                              >
+                                Polityce prywatności
+                              </a>
+                              .
+                            </>
+                          ) : (
+                            <>
+                              {' '}
+                              <button
+                                type="button"
+                                onClick={() => setShowFullConsent(true)}
+                                className="text-[#2E8540] hover:underline font-semibold"
+                              >
+                                Więcej...
+                              </button>
+                            </>
+                          )}
                         </label>
                       </div>
                       <button
@@ -1012,7 +1029,7 @@ function App() {
                   </div>
                   <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1 sm:mb-2">Przejrzyste ceny</h3>
                   <p className="text-xs sm:text-base text-gray-600">
-                    Znasz koszty przed rozpoczęciem. Bez ukrytych opłat.
+                    Znasz koszty przed rozpoczęciem długoterminowej współpracy.
                   </p>
                 </div>
 
@@ -1163,6 +1180,12 @@ function App() {
                   <Phone className="h-4 w-4 mr-2 flex-shrink-0" />
                   +48&nbsp;573&nbsp;133&nbsp;556
                 </p>
+                <div className="hidden md:block h-5 sm:h-6" aria-hidden="true"></div>
+                <p className="text-sm sm:text-base mt-4 md:mt-0">
+                  <a href="https://gramatowscy.pl" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
+                    O nas
+                  </a>
+                </p>
               </div>
             </div>
           </div>
@@ -1202,7 +1225,7 @@ function App() {
               </div>
               <div>
                 <p className="text-white font-semibold text-sm mb-1">99% pozytywnych opinii</p>
-                <p className="text-gray-400 text-xs sm:text-sm">Tysiące zadowolonych klientów polecają nasze usługi swoim bliskim.</p>
+                <p className="text-gray-400 text-xs sm:text-sm">Setki zadowolonych klientów polecają nasze usługi swoim bliskim.</p>
               </div>
             </div>
           </div>

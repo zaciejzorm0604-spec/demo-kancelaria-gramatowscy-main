@@ -17,9 +17,9 @@ STRONA 2
 
 Szybka konsultacja z prawnikiem
 
-Nie każda sprawa wymaga natychmiastowej wizyty w kancelarii. Czasem wystarczy szybka konsultacja, aby odzyskać spokój, poznać możliwości i podjąć właściwe decyzje.
+Nie każda sprawa wymaga natychmiastowej wizyty w kancelarii. Czasem wystarczy szybka konsultacja telefoniczna, aby odzyskać spokój, poznać możliwości i podjąć właściwe decyzje.
 
-Stworzyliśmy nowoczesny sposób kontaktu z prawnikiem - prosty, wygodny i dostępny ONLINE. Bez zbędnych formalności, bez ukrytych kosztów i bez wychodzenia z domu.
+Stworzyliśmy nowoczesny sposób kontaktu z prawnikiem - prosty, wygodny i dostępny ONLINE. Bez zbędnych formalności i bez wychodzenia z domu.
 
 Niezależnie od tego, czy potrzebujesz pomocy w sprawie rodzinnej, majątkowej, spadkowej czy związanej z nieruchomościami - możesz liczyć na jasne wyjaśnienie sytuacji oraz konkretne rozwiązania dopasowane do Twoich potrzeb.
 
@@ -39,7 +39,7 @@ Jak działa nasza pomoc prawna?
 Trzy proste kroki do rozwiązania Twojego problemu
 
 1. Zamów konsultację
-Poprzez formularz albo czat zamów i opłać konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.
+Poprzez formularz albo czat zamów i opłać telefoniczną konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.
 
 2. Wybierz termin konsultacji
 Nasz  asystent w ciągu 24 h (lub najbliższy dzień roboczy) skontaktuje się z Tobą i umówi konkretny termin rozmowy z prawnikiem.
@@ -132,7 +132,7 @@ Sprawne działanie
 Szybki kontakt. Analiza problemu i warianty możliwych rozwiązań.
 
 Przejrzyste ceny
-Znasz koszty przed rozpoczęciem współpracy. Bez ukrytych opłat.
+Znasz koszty przed rozpoczęciem długoterminowej współpracy.
 
 Doświadczenie
 20 lat praktyki i ponad 25000 udzielonych porad.
