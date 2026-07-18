@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MessageSquare, Phone, Mail, CheckCircle, Clock, Shield, DollarSign, Users, ChevronDown, ChevronUp, Menu, X, Award, Lock, ThumbsUp, Scissors, ScrollText, TrendingDown, Home, Scale, ShieldAlert, FileText, MapPin, Baby } from 'lucide-react';
+import { MessageSquare, Phone, Mail, CheckCircle, Clock, Shield, DollarSign, Users, ChevronDown, ChevronUp, Menu, X, Award, Lock, ThumbsUp, Scissors, ScrollText, TrendingDown, Home, Scale, ShieldAlert, FileText, MapPin, Baby, Instagram } from 'lucide-react';
 import PlayfulBall from './components/PlayfulBall';
 
 // ── Sekcja specjalizacji ───────────────────────────────────────────────────────
@@ -242,16 +242,16 @@ function SpecializationsSnake() {
 }
 
 const HW_BOARD_W = 1160;
-const HW_BOARD_H = 480;
+const HW_BOARD_H = 510;
 const HW_SNAKE_PATH =
-  'M 40 10 H 1120 Q 1140 10 1140 30 V 120 Q 1140 140 1120 140 ' +
-  'H 60 Q 40 140 40 160 V 280 Q 40 300 60 300 ' +
-  'H 1120 Q 1140 300 1140 320 V 440 Q 1140 460 1120 460 H -20';
+  'M 40 10 H 1120 Q 1140 10 1140 30 V 150 Q 1140 170 1120 170 ' +
+  'H 60 Q 40 170 40 190 V 310 Q 40 330 60 330 ' +
+  'H 1120 Q 1140 330 1140 350 V 470 Q 1140 490 1120 490 H -20';
 
 const HW_CARDS = [
-  { x: 560, y: 30, w: 560, h: 90, number: '1', title: 'Zamów konsultację', description: 'Poprzez formularz albo czat zamów i opłać telefoniczną konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.' },
-  { x: 60, y: 160, w: 460, h: 120, number: '2', title: 'Wybierz termin konsultacji', description: 'Nasz asystent w ciągu 24 h (lub najbliższy dzień roboczy) skontaktuje się z Tobą i umówi konkretny termin rozmowy z prawnikiem.' },
-  { x: 560, y: 320, w: 560, h: 120, number: '3', title: 'Otrzymaj odpowiedź', description: 'Podczas konsultacji nasz prawnik przeanalizuje Twoją sprawę i przedstawi możliwe rozwiązania.' },
+  { x: 560, y: 30, w: 560, h: 120, number: '1', title: 'Zamów konsultację', description: 'Poprzez formularz albo czat zamów i opłać telefoniczną konsultację prawną. Podaj, jakiego zagadnienia dotyczy Twoja sprawa.' },
+  { x: 60, y: 190, w: 460, h: 120, number: '2', title: 'Wybierz termin konsultacji', description: 'Nasz asystent w ciągu 24 h (lub najbliższy dzień roboczy) skontaktuje się z Tobą i umówi konkretny termin rozmowy z prawnikiem.' },
+  { x: 560, y: 350, w: 560, h: 120, number: '3', title: 'Otrzymaj odpowiedź', description: 'Podczas konsultacji nasz prawnik przeanalizuje Twoją sprawę i przedstawi możliwe rozwiązania.' },
 ];
 
 const HW_SNAKE_CSS = `
@@ -626,11 +626,11 @@ function App() {
                 Przedstaw swoją sprawę
               </a>
             </div>
-            <div className="relative h-80 sm:h-96 lg:h-[560px] rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
+            <div className="relative h-80 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
               <img
                 src="/zdjecie rozjasione.avif"
                 alt="Kancelaria Gramatowscy – wejście"
-                className="w-full h-full object-cover object-right"
+                className="w-full h-full object-cover object-right lg:object-center"
                 fetchPriority="high"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -1231,8 +1231,11 @@ function App() {
           </div>
 
           <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-gray-400 gap-4">
-            <p className="text-sm sm:text-base">&copy; 2026 <a href="https://procesflow.pl/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Procesflow</a></p>
-            <a href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii" target="_blank" rel="noopener noreferrer" className="text-sm sm:text-base hover:text-white transition">Polityka prywatności</a>
+            <p className="text-sm sm:text-base order-1 sm:order-1">&copy; 2026 <a href="https://procesflow.pl/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Procesflow</a></p>
+            <a href="https://www.instagram.com/kancelaria.prawna.gramatowscy/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition order-3 sm:order-2" aria-label="Instagram">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii" target="_blank" rel="noopener noreferrer" className="text-sm sm:text-base hover:text-white transition order-2 sm:order-3">Polityka prywatności</a>
           </div>
         </div>
       </footer>
