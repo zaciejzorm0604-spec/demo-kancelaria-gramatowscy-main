@@ -472,6 +472,18 @@ function App() {
   const [webhookResponse, setWebhookResponse] = useState<{ message: string; checkout_url?: string } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const hasSeenPopup = localStorage.getItem('hasSeenPopup');
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+        localStorage.setItem('hasSeenPopup', 'true');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -565,6 +577,44 @@ function App() {
   return (
     <div className="min-h-screen bg-white relative">
       <PlayfulBall />
+
+      {/* Pop-up */}
+      {showPopup && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowPopup(false)} />
+          <div className="relative bg-[#D92015] rounded-[2rem] p-8 sm:p-10 text-white max-w-[440px] w-full shadow-2xl text-center">
+            <button onClick={() => setShowPopup(false)} className="absolute top-4 right-4 text-white/80 hover:text-white transition">
+              <X className="w-6 h-6" />
+            </button>
+            <h2 className="text-3xl font-bold mb-4 mt-2">Masz problem prawny?</h2>
+            <div className="w-full h-[1px] bg-white/30 mb-6" />
+            <p className="text-lg mb-1">Skorzystaj</p>
+            <p className="text-xl font-bold tracking-wide mb-6 uppercase">z KONSULTACJI TELEFONICZNEJ</p>
+            <div className="flex items-end justify-center gap-2 mb-6">
+              <span className="text-2xl font-bold mb-1">za</span>
+              <span className="text-[5rem] font-bold leading-none">99</span>
+              <span className="text-4xl font-bold leading-none self-start mt-2">*</span>
+              <div className="flex flex-col items-start ml-2 mb-1">
+                 <span className="text-2xl font-bold">zł brutto</span>
+              </div>
+            </div>
+            <p className="text-lg mb-8 leading-snug font-medium">
+              Już przy pierwszym kontakcie<br />
+              wskażemy Ci kierunek działania.
+            </p>
+            <a 
+              href="#kontakt-formularz" 
+              onClick={() => setShowPopup(false)}
+              className="block w-full bg-white text-[#D92015] font-bold text-xl py-4 rounded-xl hover:bg-gray-100 transition shadow-lg mb-4"
+            >
+              Zamów konsultację
+            </a>
+            <p className="text-sm text-white/80">
+              * 30 minut rozmowy z prawnikiem
+            </p>
+          </div>
+        </div>
+      )}
       <a href="#kontakt-formularz" className={`md:hidden fixed right-0 top-1/2 -translate-y-1/2 bg-[#2E8540] text-white py-4 px-2 rounded-r-lg shadow-xl z-40 text-sm font-semibold tracking-wider flex items-center justify-center transition-opacity duration-300 ${showScrollTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)' }}>
         Przedstaw sprawę
       </a>
@@ -605,8 +655,8 @@ function App() {
       {/* STRONA 1 – Intro Hero */}
       <section className="pt-24 pb-16 bg-[#F3F9F4] lg:bg-gray-50 min-h-[100vh] flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-5 flex flex-col justify-center items-start">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                 <span className="text-[#2E8540]">Profesjonalne wsparcie prawne</span> zaczyna się od&nbsp;zrozumienia
               </h1>
@@ -626,14 +676,14 @@ function App() {
                 Przedstaw swoją sprawę
               </a>
             </div>
-            <div className="relative h-80 sm:h-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
+            <div className="lg:col-span-7 relative h-80 sm:h-96 lg:h-auto lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
               <img
                 src="/zdjecie rozjasione.avif"
                 alt="Kancelaria Gramatowscy – wejście"
-                className="w-full h-full object-cover object-right lg:object-center"
+                className="absolute inset-0 w-full h-full object-cover object-center"
                 fetchPriority="high"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
@@ -1232,7 +1282,7 @@ function App() {
 
           <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-gray-400 gap-4">
             <p className="text-sm sm:text-base order-1 sm:order-1">&copy; 2026 <a href="https://procesflow.pl/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Procesflow</a></p>
-            <a href="https://www.instagram.com/kancelaria.prawna.gramatowscy/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition order-3 sm:order-2" aria-label="Instagram">
+            <a href="https://www.instagram.com/kancelaria.prawna.gramatowscy/" target="_blank" rel="noopener noreferrer" className="relative z-10 text-gray-400 hover:text-white transition order-3 sm:order-2" aria-label="Instagram">
               <Instagram className="w-5 h-5" />
             </a>
             <a href="https://gramatowscy.pl/dla-klienta/rodo-klauzula-informacyjna-dla-klientow-kancelarii" target="_blank" rel="noopener noreferrer" className="text-sm sm:text-base hover:text-white transition order-2 sm:order-3">Polityka prywatności</a>
