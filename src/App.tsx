@@ -676,9 +676,9 @@ function App() {
                 Przedstaw swoją sprawę
               </a>
             </div>
-            <div className="lg:col-span-7 relative h-80 sm:h-96 lg:h-auto lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-2xl mt-0 lg:mt-2">
+            <div className="lg:col-span-7 relative aspect-square w-full rounded-[2.5rem] overflow-hidden shadow-2xl mt-0 lg:mt-2 border-8 border-white">
               <img
-                src="/zdjecie rozjasione.avif"
+                src="/zdjecie_kwadrat.jpg"
                 alt="Kancelaria Gramatowscy – wejście"
                 className="absolute inset-0 w-full h-full object-cover object-center"
                 fetchPriority="high"
