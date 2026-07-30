@@ -655,8 +655,8 @@ function App() {
       {/* STRONA 1 – Intro Hero */}
       <section className="pt-24 pb-16 bg-[#F3F9F4] lg:bg-gray-50 min-h-[100vh] flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            <div className="lg:col-span-5 flex flex-col justify-center items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="flex flex-col justify-center items-start">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                 <span className="text-[#2E8540]">Profesjonalne wsparcie prawne</span> zaczyna się od&nbsp;zrozumienia
               </h1>
@@ -676,7 +676,7 @@ function App() {
                 Przedstaw swoją sprawę
               </a>
             </div>
-            <div className="lg:col-span-7 relative aspect-square w-full rounded-[2.5rem] overflow-hidden shadow-2xl mt-0 lg:mt-2 border-8 border-white">
+            <div className="relative aspect-square w-full rounded-[2.5rem] overflow-hidden shadow-2xl mt-0 lg:mt-2">
               <img
                 src="/zdjecie_kwadrat.jpg"
                 alt="Kancelaria Gramatowscy – wejście"
