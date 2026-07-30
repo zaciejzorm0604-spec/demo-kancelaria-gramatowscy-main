@@ -615,9 +615,7 @@ function App() {
           </div>
         </div>
       )}
-      <a href="#kontakt-formularz" className={`md:hidden fixed right-0 top-1/2 -translate-y-1/2 bg-[#2E8540] text-white py-4 px-2 rounded-r-lg shadow-xl z-40 text-sm font-semibold tracking-wider flex items-center justify-center transition-opacity duration-300 ${showScrollTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)' }}>
-        Przedstaw sprawę
-      </a>
+
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white shadow-sm z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
